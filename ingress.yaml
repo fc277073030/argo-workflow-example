@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-server
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /$2
+#    ingress.kubernetes.io/protocol: https # Traefik
+    nginx.ingress.kubernetes.io/backend-protocol: https # ingress-nginx
+spec:
+  rules:
+    - host: argo.fc277073030.com
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: argo-server
+                port:
+                  number: 2746
+            path: /argo(/|$)(.*)
+---
+apiVersion: apiextensions.k8s.io/v1
